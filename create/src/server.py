@@ -12,15 +12,10 @@ def create_bucket():
     if not bucket_name:
         return jsonify({"error": "Bucket name is required"}), 400
 
-    # Verificar si el bucket ya existe
-    existing_buckets = s3.list_buckets()
-    if any(bucket['Name'] == bucket_name for bucket in existing_buckets['Buckets']):
-        return jsonify({"error": f"Bucket '{bucket_name}' already exists."}), 400
-
     # Intentar crear el bucket
     try:
         s3.create_bucket(Bucket=bucket_name)
-        return jsonify({"message": f"Bucket '{bucket_name}' created successfully!"}), 201
+        return jsonify({"message": f"Bucket '{bucket_name}' created successfully or already exist"}), 201
     except ClientError as e:
         return jsonify({"error": str(e)}), 400
 
