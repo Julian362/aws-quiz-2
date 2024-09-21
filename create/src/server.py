@@ -6,15 +6,6 @@ server = Flask(__name__)
 s3 = boto3.client(
     's3',)
 
-
-from botocore.exceptions import ClientError
-
-@server.route("/buckets/create", methods=['POST'])
-def create_bucket():
-    bucket_name = request.json.get('name')
-    if not bucket_name:
-        return jsonify({"error": "Bucket name is required"}), 400
-
 @server.route("/buckets/create", methods=['POST'])
 def create_bucket():
     bucket_name = request.json.get('name')
@@ -32,8 +23,6 @@ def create_bucket():
         return jsonify({"message": f"Bucket '{bucket_name}' created successfully!"}), 201
     except ClientError as e:
         return jsonify({"error": str(e)}), 400
-
-
 
 
 
